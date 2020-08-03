@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    #table {
+        width: 300px;
+    }
+    #table td,th {
+        border: 1px solid black;
+        cursor: pointer;
+    }
+
+</style>
+<body>
+<table id="table">
+    <thead>
+    <tr>
+        <th data-Type="string">Имя</th>
+        <th data-Type="string">Бренд</th>
+        <th data-Type="number">Цена</th>
+        <th data-Type="number">Врзраст</th>
+    </tr>
+    </thead>
+    <tbody>
+<tr>
+     <td>Larry</td>
+     <td>Apple</td>
+     <td>4000</td>
+     <td>18</td>
+</tr>
+<tr>
+    <td>Ron</td>
+    <td>Sony</td>
+    <td>2000</td>
+    <td>19</td>
+</tr>
+          <td>Germiona</td>
+           <td>Nokia</td>
+           <td>3000</td>
+           <td>17</td>
+</tbody>
+</table>
+</body>
+<script>
+    let table = document.querySelector('#table');
+    let tbody = table.querySelector('tbody');
+    let trs = tbody.querySelectorAll('tr');
+
+table.onclick = function (event) {
+    if (event.target.tagName  != 'th'){
+        return sortedCell(event.target.cellIndex, event.target.getAttribute('data-Type'));
+    }
+}
+
+  function sortedCell(cell, type) {
+    let sort;
+    switch (type) {
+        case 'string':
+             sort = (a,b)=> {
+                return(a.cells[cell].innerHTML >= b.cells[cell].innerHTML) ? 1 : -1;
+            };
+            break;
+        case 'number':
+             sort = (a, b) => {
+                 return(a.cells[cell].innerHTML - b.cells[cell].innerHTML);
+             }
+             break;
+    }
+    table.removeChild(tbody);
+    for (let tr of [...trs].sort(sort)){
+        tbody.appendChild(tr);
+    }
+    table.appendChild(tbody);
+  }
+
+</script>
+</html>
